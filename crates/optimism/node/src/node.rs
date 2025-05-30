@@ -57,6 +57,7 @@ use reth_transaction_pool::{
 use reth_trie_db::MerklePatriciaTrie;
 use revm::context::TxEnv;
 use std::sync::Arc;
+use reth_node_builder::rpc::{BasicEngineApiBuilder, EngineApiBuilder};
 
 /// Marker trait for Optimism node types with standard engine, chain spec, and primitives.
 pub trait OpNodeTypes:
@@ -447,6 +448,25 @@ impl OpAddOnsBuilder {
                 OpEthApiBuilder::default().with_sequencer(sequencer_url.clone()),
                 OpEngineValidatorBuilder::default(),
                 OpEngineApiBuilder::default(),
+            ),
+            da_config: da_config.unwrap_or_default(),
+            sequencer_url,
+            enable_tx_conditional,
+        }
+    }
+
+    pub fn build_with_engine<N, EV, EB: EngineApiBuilder<EV>>(self, engine_builder: EB) -> OpAddOns<N, OpEthApiBuilder>
+    where
+        N: FullNodeComponents<Types: NodeTypes<Primitives = OpPrimitives>>,
+        OpEthApiBuilder: EthApiBuilder<N>,
+    {
+        let Self { sequencer_url, da_config, enable_tx_conditional } = self;
+
+        OpAddOns {
+            rpc_add_ons: RpcAddOns::new(
+                OpEthApiBuilder::default().with_sequencer(sequencer_url.clone()),
+                OpEngineValidatorBuilder::default(),
+                engine_builder,
             ),
             da_config: da_config.unwrap_or_default(),
             sequencer_url,
