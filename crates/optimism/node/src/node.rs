@@ -454,29 +454,6 @@ impl OpAddOnsBuilder {
             enable_tx_conditional,
         }
     }
-
-    //    pub fn with_engine_api<T>(self, engine_api_builder: T) -> RpcAddOns<Node, EthB, EV, T> {
-    //         let Self { hooks, eth_api_builder, engine_validator_builder, .. } = self;
-    //         RpcAddOns { hooks, eth_api_builder, engine_validator_builder, engine_api_builder }
-    //     }
-    pub fn build_with_engine<N, EB: EngineApiBuilder<N>>(self, engine_builder: EB) -> OpAddOns<N, OpEthApiBuilder>
-    where
-        N: FullNodeComponents<Types: NodeTypes<Primitives = OpPrimitives>>,
-        OpEthApiBuilder: EthApiBuilder<N>,
-    {
-        let Self { sequencer_url, da_config, enable_tx_conditional } = self;
-
-        OpAddOns {
-            rpc_add_ons: RpcAddOns::new(
-                OpEthApiBuilder::default().with_sequencer(sequencer_url.clone()),
-                OpEngineValidatorBuilder::default(),
-                OpEngineApiBuilder::default(),
-            ).with_engine_api(engine_builder),
-            da_config: da_config.unwrap_or_default(),
-            sequencer_url,
-            enable_tx_conditional,
-        }
-    }
 }
 
 /// A regular optimism evm and executor builder.
