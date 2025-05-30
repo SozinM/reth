@@ -455,7 +455,7 @@ impl OpAddOnsBuilder {
         }
     }
 
-    pub fn build_with_engine<N, EV: EngineValidatorBuilder<N>, EB: EngineApiBuilder<EV>>(self, engine_builder: EB) -> OpAddOns<N, OpEthApiBuilder>
+    pub fn build_with_engine<N, EB: EngineApiBuilder<N>>(self, engine_builder: EB) -> OpAddOns<N, OpEthApiBuilder>
     where
         N: FullNodeComponents<Types: NodeTypes<Primitives = OpPrimitives>>,
         OpEthApiBuilder: EthApiBuilder<N>,
