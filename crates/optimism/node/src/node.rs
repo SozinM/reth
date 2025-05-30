@@ -251,7 +251,7 @@ pub struct OpAddOns<
     /// network.
     pub sequencer_url: Option<String>,
     /// Enable transaction conditionals.
-    enable_tx_conditional: bool,
+    pub enable_tx_conditional: bool,
 }
 
 impl<N> Default for OpAddOns<N, OpEthApiBuilder>
