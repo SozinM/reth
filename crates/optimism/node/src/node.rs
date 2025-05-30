@@ -455,6 +455,10 @@ impl OpAddOnsBuilder {
         }
     }
 
+    //    pub fn with_engine_api<T>(self, engine_api_builder: T) -> RpcAddOns<Node, EthB, EV, T> {
+    //         let Self { hooks, eth_api_builder, engine_validator_builder, .. } = self;
+    //         RpcAddOns { hooks, eth_api_builder, engine_validator_builder, engine_api_builder }
+    //     }
     pub fn build_with_engine<N, EB: EngineApiBuilder<N>>(self, engine_builder: EB) -> OpAddOns<N, OpEthApiBuilder>
     where
         N: FullNodeComponents<Types: NodeTypes<Primitives = OpPrimitives>>,
@@ -466,8 +470,8 @@ impl OpAddOnsBuilder {
             rpc_add_ons: RpcAddOns::new(
                 OpEthApiBuilder::default().with_sequencer(sequencer_url.clone()),
                 OpEngineValidatorBuilder::default(),
-                engine_builder,
-            ),
+                OpEngineApiBuilder::default(),
+            ).with_engine_api(engine_builder),
             da_config: da_config.unwrap_or_default(),
             sequencer_url,
             enable_tx_conditional,
