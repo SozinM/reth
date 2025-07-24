@@ -66,8 +66,10 @@ pub struct MockEthProvider<
     pub state_roots: Arc<Mutex<Vec<B256>>>,
     /// Local block body indices store
     pub block_body_indices: Arc<Mutex<HashMap<BlockNumber, StoredBlockBodyIndices>>>,
-    tx: TxMock,
-    prune_modes: Arc<PruneModes>,
+    /// Mock tx
+    pub tx: TxMock,
+    /// Prune modes
+    pub prune_modes: Arc<PruneModes>,
 }
 
 impl<T: NodePrimitives, ChainSpec> Clone for MockEthProvider<T, ChainSpec>
