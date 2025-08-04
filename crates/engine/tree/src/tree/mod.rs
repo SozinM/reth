@@ -609,7 +609,7 @@ where
                         }
                         InsertPayloadOk::AlreadySeen(BlockStatus::Valid) => {
                             latest_valid_hash = Some(block_hash);
-                            self.metrics.executor.used_already_executed_blocks.increment();
+                            self.metrics.engine.used_already_executed_blocks.increment();
                             PayloadStatusEnum::Valid
                         }
                         InsertPayloadOk::Inserted(BlockStatus::Disconnected { .. }) |
