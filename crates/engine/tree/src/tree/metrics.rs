@@ -55,6 +55,8 @@ pub(crate) struct EngineMetrics {
     /// Tracks the how often we failed to deliver a forkchoice update response.
     pub(crate) failed_forkchoice_updated_response_deliveries: Counter,
     // TODO add latency metrics
+    /// Number of times we used cached block from mem
+    pub used_already_executed_blocks: Counter,
 }
 
 /// Metrics for non-execution related block validation.

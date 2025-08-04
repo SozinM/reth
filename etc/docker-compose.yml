@@ -67,6 +67,8 @@ services:
       sh -c "cp -r /etc/grafana/provisioning_temp/dashboards/. /etc/grafana/provisioning/dashboards &&
              find /etc/grafana/provisioning/dashboards/ -name '*.json' -exec sed -i 's/$${DS_PROMETHEUS}/Prometheus/g' {} \+ &&
              /run.sh"
+    networks:
+      - ethplayground
 
 volumes:
   mainnet_data:
@@ -83,3 +85,7 @@ volumes:
     driver: local
   grafana_data:
     driver: local
+    
+networks:
+  ethplayground:
+    external: true 
